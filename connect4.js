@@ -5,17 +5,13 @@
  * board fills (tie)
  */
 
-
-// let currPlayer = 1; // active player: 1 or 2
-
 class Game {
   constructor(p1, p2, height = 6, width = 7) {
-    this.p1 = p1;
-    this.p2 = p2;
+    this.player = [p1, p2];
     this.height = height;
     this.width = width;
     this.board = [];
-    this.currPlayer = this.p1;
+    this.currPlayer = this.player[0];
     this.makeBoard();
     this.makeHtmlBoard();
     this.gameIsOver = false;
@@ -72,7 +68,6 @@ class Game {
     return null;
   }
 
-
   /** placeInTable: update DOM to place piece into HTML table of board */
   placeInTable(y, x) {
     const piece = document.createElement("div");
@@ -86,7 +81,7 @@ class Game {
 
   /** endGame: announce game end */
   endGame(msg) {
-    this.gameIsOver = true
+    this.gameIsOver = true;
     alert(msg);
   }
 
@@ -118,7 +113,7 @@ class Game {
       }
 
       // switch players
-      this.currPlayer = this.currPlayer === this.p1 ? this.p2 : this.p1;
+      this.currPlayer = this.currPlayer === this.player[0] ? this.player[1] : this.player[0];
     }
   }
 
@@ -129,7 +124,7 @@ class Game {
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
 
-       return cells.every(
+      return cells.every(
         ([y, x]) =>
           y >= 0 &&
           y < this.height &&
@@ -137,8 +132,7 @@ class Game {
           x < this.width &&
           this.board[y][x] === this.currPlayer
       );
-    }
-
+    };
 
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
@@ -179,22 +173,20 @@ class Game {
 }
 
 class Player {
-  constructor (color) {
-    this.color = color
+  constructor(color) {
+    this.color = color;
   }
 }
 
 const startBtn = document.getElementById("start");
 
-startBtn.addEventListener("click", function(evt) {
+startBtn.addEventListener("click", function (evt) {
   evt.preventDefault();
   const htmlBoard = document.getElementById("board");
+  htmlBoard.innerHTML = "";
   const p1Color = document.getElementById("player-one").value;
   const p2Color = document.getElementById("player-two").value;
-  htmlBoard.innerHTML = ""
   let p1 = new Player(p1Color);
   let p2 = new Player(p2Color);
   let game = new Game(p1, p2);
-
-
-})
+});
