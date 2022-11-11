@@ -5,19 +5,17 @@
  * board fills (tie)
  */
 
-const WIDTH = 7;
-const HEIGHT = 6;
 
 // let currPlayer = 1; // active player: 1 or 2
 
 class Game {
-  constructor(height, width) {
-    (this.height = height),
-    (this.width = width),
-    (this.board = []),
-    (this.currPlayer = 1),
-    (this.makeBoard()),
-    (this.makeHtmlBoard())
+  constructor(height = 6, width = 7) {
+    this.height = height;
+    this.width = width;
+    this.board = [];
+    this.currPlayer = 1;
+    this.makeBoard();
+    this.makeHtmlBoard();
   }
 
   /** makeBoard: create in-JS board structure:
@@ -103,7 +101,6 @@ class Game {
     // place piece in board and add to HTML table
     this.board[y][x] = this.currPlayer;
     this.placeInTable(y, x);
-    console.log("handleclick this:", this);
 
     // check for win
     if (this.checkForWin()) {
@@ -121,8 +118,6 @@ class Game {
 
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
   checkForWin() {
-    console.log("checkForWin this:", this);
-
     const _win = (cells) => {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
@@ -177,4 +172,9 @@ class Game {
   }
 }
 
-let game = new Game(HEIGHT, WIDTH)
+
+const startBtn = document.getElementById("start");
+
+startBtn.addEventListener("click", function(evt) {
+  let game = new Game()
+})
